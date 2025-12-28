@@ -2,6 +2,7 @@
 
 global _start
 extern kernel_main
+global problem      ;Define the IDT in Global Scope
 
 CODE_SEG equ 0x08
 DATA_SEG equ 0x10
@@ -24,5 +25,9 @@ _start:
     call kernel_main
 
     jmp $
+
+; Check IDT
+problem:
+    int 0       ; Call inturrupt 0
 
 times 512-($ - $$) db 0

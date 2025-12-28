@@ -121,7 +121,7 @@ ata_lba_read:
 ; We need to read 256 words at a time
     mov ecx, 256
     mov dx, 0x1F0
-    rep insw
+    rep insw    ; Copy to ES with help wit DI register also auto increment
     pop ecx
     loop .next_sector
     ; End of reading sectors into memory

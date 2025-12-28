@@ -1,6 +1,10 @@
 #include "kernel.h"
 #include <stddef.h>
 #include <stdint.h>
+#include "idt/idt.h"
+
+// Check IDT 
+extern void problem();
 
 
 uint16_t* video_mem = 0;
@@ -73,4 +77,10 @@ void kernel_main()
 {
     terminal_initialize();
     print("Hello world!\ntest");
+
+    // Initilize IDT
+    idt_init();
+
+    // Call IDT
+    problem();
 }
