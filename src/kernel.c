@@ -83,7 +83,7 @@ void kernel_main()
     idt_init();
 
     // Call IDT
-    problem();
+    // problem();
 
-    outb(0x60,0xff);
+    //outb(0x60,0xff);
 }

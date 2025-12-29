@@ -2,6 +2,7 @@
 #include "config.h"
 #include "memory/memory.h"
 #include "kernel.h"
+#include "io/io.h"
 
 /* IDT Structure Defination */
 struct idt_desc idt_descriptor[TOTAL_INTURRUPT_SUPORTED]; 
@@ -9,6 +10,21 @@ struct idtr_desc idtr_descriptor;
 
 // IDT Load Global scope
 extern void idt_load(struct idtr_desc *ptr);
+extern void int21h();
+extern void no_inturrupt();
+
+// Keyboard Inturrupt
+void int21h_handler()
+{
+    print("Keyboard Press !!!!\n");
+    outb(0x20,0x20);
+}
+
+// No Inturrupt settinf
+void no_inturrupt_handler()
+{
+    outb(0x20,0x20);
+}
 
 void idt_zero(void)
 {
@@ -31,8 +47,15 @@ void idt_init(void)
     idtr_descriptor.limit = sizeof(idt_descriptor) - 1;     // Total Size of IDT
     idtr_descriptor.base = (uint32_t)idt_descriptor;                  // Base address Of IDT
 
+    // Init No Inturrupt
+    for(int i = 0;i < TOTAL_INTURRUPT_SUPORTED;i++)
+    {
+        idt_set(i,no_inturrupt);
+    }
     // Add Function Call
     idt_set(0,idt_zero);
+    // Call the Keyboard Press Inturrupt
+    idt_set(0x21,int21h);
 
     // Load IDT
     idt_load(&idtr_descriptor);

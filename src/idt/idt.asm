@@ -1,6 +1,11 @@
 section .asm
 
+extern int21h_handler
+extern no_inturrupt_handler
+
 global idt_load
+global int21h
+global no_inturrupt
 
 idt_load:
     push ebp            ; Push the Current Base Pointer to the Stack
@@ -10,4 +15,21 @@ idt_load:
     lidt [ebx]          ; Load the IDT
     pop ebp
     ret
-    
+
+; Make IDT 21 
+int21h:
+    cli
+    pushad              ; Push all the current register in stack
+    call int21h_handler ; Call he handler function
+    popad               ; Pop all the store register 
+    sti
+    iret
+
+; No inturrupt set
+no_inturrupt:
+    cli
+    pushad
+    call no_inturrupt_handler
+    popad
+    sti
+    iret
