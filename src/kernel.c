@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "idt/idt.h"
+#include "io/io.h"
 
 // Check IDT 
 extern void problem();
@@ -83,4 +84,6 @@ void kernel_main()
 
     // Call IDT
     problem();
+
+    outb(0x60,0xff);
 }
