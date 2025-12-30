@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include "idt/idt.h"
 #include "io/io.h"
+#include "memory/heap/heap.h"
+#include "memory/heap/kheap.h"
 
 // Check IDT 
 extern void problem();
@@ -79,6 +81,9 @@ void kernel_main()
     terminal_initialize();
     print("Hello world!\ntest");
 
+    // Malloc Initilize
+    kheap_init();
+
     // Initilize IDT
     idt_init();
 
@@ -86,4 +91,14 @@ void kernel_main()
     // problem();
 
     //outb(0x60,0xff);
+    void *ptr = kmalloc(50);
+    void *ptr1 = kmalloc(5000);
+    void *ptr2 = kmalloc(5600);
+    kfree(ptr);
+    void *ptr3 = kmalloc(50);
+
+    if(ptr || ptr1 || ptr2 || ptr3)
+    {
+
+    }
 }
