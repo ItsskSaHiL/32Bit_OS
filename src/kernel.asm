@@ -32,7 +32,8 @@ _start:
     mov al, 00000001b       ; Set to 8086 PIC controller
     out 0x21, al            ; Set with data port
 
-    sti                     ; Start inturrupt "Check This"
+    ; Here sti remove cause after IDT we should start Inturrupt
+    ;sti                     ; Start inturrupt "Check This"
 
     call kernel_main
 

@@ -87,6 +87,9 @@ void kernel_main()
     // Initilize IDT
     idt_init();
 
+    // Enable Inturrupt after IDT initilize
+    enable_inturrupt();
+
     // Call IDT
     // problem();
 

@@ -6,6 +6,16 @@ extern no_inturrupt_handler
 global idt_load
 global int21h
 global no_inturrupt
+global enable_inturrupt
+global disable_inturrupt
+
+enable_inturrupt:
+    sti
+    ret
+
+disable_inturrupt:
+    cli
+    ret
 
 idt_load:
     push ebp            ; Push the Current Base Pointer to the Stack
