@@ -5,9 +5,12 @@
 #include "io/io.h"
 #include "memory/heap/heap.h"
 #include "memory/heap/kheap.h"
+#include "memory/paging/paging.h"
 
 // Check IDT 
 extern void problem();
+// Use for page table
+static struct paging_4gb_chunk *kernel_chunk;
 
 
 uint16_t* video_mem = 0;
@@ -87,21 +90,44 @@ void kernel_main()
     // Initilize IDT
     idt_init();
 
+    // Set up Page table
+    kernel_chunk = paging_new_4gb(PAGING_IS_WRITABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
+    // Switch to kernel paging chunk
+    paging_switch(paging_4gb_chunk_get_directory(kernel_chunk));
+    // Enable paging
+    enable_paging();
+
     // Enable Inturrupt after IDT initilize
     enable_inturrupt();
 
     // Call IDT
     // problem();
 
+    // Implement the paging Example
+    char *ptr = (char*)kzalloc(4096);
+    // Set the Page things
+    paging_set(paging_4gb_chunk_get_directory(kernel_chunk),(void*)0x1000,(uint32_t)ptr | PAGING_IS_WRITABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
+    // set the things
+    char *ptr1 = (char *)0x1000;
+    ptr1[0] = 'A';
+    ptr1[1] = 'B';
+    ptr1[2] = 'C';
+
+    print(ptr1);
+
+    print("\n");
+
+    print(ptr);
+
     //outb(0x60,0xff);
-    void *ptr = kmalloc(50);
-    void *ptr1 = kmalloc(5000);
-    void *ptr2 = kmalloc(5600);
-    kfree(ptr);
-    void *ptr3 = kmalloc(50);
+//     void *ptr = kmalloc(50);
+//     void *ptr1 = kmalloc(5000);
+//     void *ptr2 = kmalloc(5600);
+//     kfree(ptr);
+//     void *ptr3 = kmalloc(50);
 
-    if(ptr || ptr1 || ptr2 || ptr3)
-    {
+//     if(ptr || ptr1 || ptr2 || ptr3)
+//     {
 
-    }
+//     }
 }
