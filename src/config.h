@@ -13,7 +13,7 @@
 #define MYOS_HEAP_ADDRESS       0x01000000      // Start address of Heap
 #define MYOS_HEAP_TABLE_ADDRESS 0x00007E00      // Store the Heap Table in address not in array
 
-
+#define MYOS_SECTOR_SIZE        512             // Hard Disk Sector Size
 
 
 #endif

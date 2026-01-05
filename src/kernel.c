@@ -6,6 +6,10 @@
 #include "memory/heap/heap.h"
 #include "memory/heap/kheap.h"
 #include "memory/paging/paging.h"
+#include "disk/disk.h"
+#include "memory/memory.h"
+#include "string/string.h"
+#include "fs/pparser.h"
 
 // Check IDT 
 extern void problem();
@@ -58,18 +62,6 @@ void terminal_initialize()
     }   
 }
 
-
-size_t strlen(const char* str)
-{
-    size_t len = 0;
-    while(str[len])
-    {
-        len++;
-    }
-
-    return len;
-}
-
 void print(const char* str)
 {
     size_t len = strlen(str);
@@ -87,6 +79,9 @@ void kernel_main()
     // Malloc Initilize
     kheap_init();
 
+    // Search and Init Disk
+    disk_search_and_init();
+
     // Initilize IDT
     idt_init();
 
@@ -97,27 +92,39 @@ void kernel_main()
     // Enable paging
     enable_paging();
 
+    //    // Geting data form HDD 
+    // char buf[512];
+    // disk_read_sector(0,1,buf); 
+
     // Enable Inturrupt after IDT initilize
     enable_inturrupt();
 
-    // Call IDT
+    // Implement PathParser
+    struct path_root *root_path = pathparser_parse("1:/home/desktop/personal/My_Os",NULL);
+
+    if(root_path)
+    {
+        
+    }
+                                                                                              
+    // Call IDT                    
     // problem();
 
-    // Implement the paging Example
-    char *ptr = (char*)kzalloc(4096);
-    // Set the Page things
-    paging_set(paging_4gb_chunk_get_directory(kernel_chunk),(void*)0x1000,(uint32_t)ptr | PAGING_IS_WRITABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
-    // set the things
-    char *ptr1 = (char *)0x1000;
-    ptr1[0] = 'A';
-    ptr1[1] = 'B';
-    ptr1[2] = 'C';
+    // Implement the paging Example                               
+    // char *ptr = (char*)kzalloc(4096);
+    // // Set the Page things
+    // paging_set(paging_4gb_chunk_get_directory(kernel_chunk),(void*)0x1000,(uint32_t)ptr | PAGING_IS_WRITABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
+    // // set the things
+    // char *ptr1 = (char *)0x1000;
+    // ptr1[0] = 'A';
+    // ptr1[1] = 'B';
+    // ptr1[2] = 'C';
 
-    print(ptr1);
+    // print(ptr1);
 
-    print("\n");
+    // print("\n");
 
-    print(ptr);
+    // print(ptr);
 
     //outb(0x60,0xff);
 //     void *ptr = kmalloc(50);
