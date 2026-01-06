@@ -10,6 +10,7 @@
 #include "memory/memory.h"
 #include "string/string.h"
 #include "fs/pparser.h"
+#include "disk/streamer.h"
 
 // Check IDT 
 extern void problem();
@@ -100,12 +101,23 @@ void kernel_main()
     enable_inturrupt();
 
     // Implement PathParser
-    struct path_root *root_path = pathparser_parse("1:/home/desktop/personal/My_Os",NULL);
+    // struct path_root *root_path = pathparser_parse("1:/home/desktop/personal/My_Os",NULL);
 
-    if(root_path)
-    {
+    // if(root_path)
+    // {
         
+    // }
+    
+    // Implement and Check Disk Data
+    struct disk_stream *stream = diskstreamer_new(0);
+    diskstreamer_seek(stream,0x205);
+    unsigned char c = 0;
+    diskstreamer_read(stream,&c,1);
+    while(1)
+    {
+
     }
+
                                                                                               
     // Call IDT                    
     // problem();
