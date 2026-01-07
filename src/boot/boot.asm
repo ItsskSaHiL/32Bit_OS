@@ -8,8 +8,30 @@ _start:
     jmp short start
     nop
 
- times 33 db 0
- 
+; times 33 db 0
+; At this place we start implementing FAT16 File system
+OEMIdentifire           db 'MYOSFAT '
+Bytespersector          dw 0x200
+Sectorsperclustter      db 0x80
+Reservedsectors         dw 200
+FATCopies               db 0x02
+RootDirEntry            dw 0x40
+NumSectors              dw 0x00
+MediaType               db 0xf8
+SectorsPerFat           dw 0x100
+SectorsPerTrack         dw 0x20
+NumberofHeads           dw 0x40
+HiddenSector            dd 0x00
+SectorsBig              dd 0x773594
+
+; Entended BPB (DOS 4.0)
+DriveNumber             db 0x80
+WinNTBit                db 0x00
+Signature               db 0x29
+VolumeID                dd 0xD105
+VolumeIDString          db 'MYOSFATBOOT'
+SystemIDSTring          db 'FAT16 OS'
+
 start:
     jmp 0:step2
 
