@@ -1,6 +1,9 @@
 #ifndef DISK_H
 #define DISK_H
 
+/* Include for File System */
+#include "fs/file.h"
+
 typedef unsigned int MYOS_DISK_TYPE;
 
 // Physical Hard Drive Count
@@ -10,6 +13,11 @@ struct disk
 {
     MYOS_DISK_TYPE type;
     int sector_size;
+    
+    /*
+    * Add File System In Disk
+    */
+   struct filesystem *filesystem;
 };
 
 void disk_search_and_init();

@@ -71,3 +71,32 @@ Date : 07.01.2025
 | 0x0002–0xFFEF | Used        |
 | 0xFFF7        | Bad cluster |
 | 0xFFF8–0xFFFF | End of file |
+
+## Entended BPB
+Offset  Size  Field
+--------------------------------
+0x24    1     DriveNumber
+0x25    1     Reserved (WinNT)
+0x26    1     Signature (0x29)
+0x27    4     Volume ID
+0x2B    11    Volume Label
+0x36    8     File System Type
+
+
+# Virtual File System
+
+User Program
+   |
+   |  open(), read(), write()
+   v
+System Call Interface
+   |
+   v
+-------------------------
+|        VFS Layer      |
+-------------------------
+   |        |        |
+  FAT      ext4     procfs
+ driver    driver    driver
+
+

@@ -15,5 +15,8 @@
 
 #define MYOS_SECTOR_SIZE        512             // Hard Disk Sector Size
 
+#define MYOS_MAX_FILESYSTEM         12          // Total File System Supported By My_OS
+#define MY_OS_MAX_FILE_DESCRIPTOR   512         // Total File Descriptor Supported 
+
 
 #endif
