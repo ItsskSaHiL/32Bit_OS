@@ -4,6 +4,7 @@
 #include "memory/memory.h"
 #include "status.h"
 #include "memory/heap/kheap.h"
+#include "fat.h"
 
 /* Decleare Total File System Supportd By My_OS */
 struct filesystem *filesystems[MYOS_MAX_FILESYSTEM];
@@ -45,7 +46,7 @@ void fs_insert_filesystem(struct filesystem *filesystem)
 */
 static void fs_static_load(void)
 {
-    //fs_insert_filesystem(fat16_init());
+    fs_insert_filesystem(fat_init());
 }
 
 /*

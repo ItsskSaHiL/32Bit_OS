@@ -18,6 +18,11 @@ struct disk
     * Add File System In Disk
     */
    struct filesystem *filesystem;
+   
+   /*
+   * Private data for filesystem
+   */
+   void *fs_private;
 };
 
 void disk_search_and_init();
